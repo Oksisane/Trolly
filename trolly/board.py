@@ -28,7 +28,20 @@ class Board(TrelloObject):
             uri_path='/boards/' + self.id,
             query_params=query_params or {}
         )
+    def get_actions(self,query_params=None):
+        """
+        Get last 1000 actions for this board. Returns a list of actions in json format.
+        """
 
+        action_list = []
+        actions = actions = self.fetch_json(
+                        self.base_uri + '/actions',
+                        query_params={'limit':1000}
+                      )
+        for action_json in actions:
+            action_list.append(action_json)  
+        return action_list
+        
     def get_lists(self):
         """
         Get the lists attached to this board. Returns a list of List objects.
